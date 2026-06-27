@@ -6,7 +6,7 @@ import "fmt"
 // KONSTANTA DAN TIPE DATA
 // ==============================
 
-const NMAX int = 1000
+const NMAX int = 999
 
 type Produk struct {
 	id           int
@@ -32,7 +32,7 @@ func cetakGaris() {
 // buat nampilin header menu dengan judul tertentu
 func cetakHeader(judul string) {
 	cetakGaris()
-	fmt.Println("  " + judul)
+	fmt.Println("  ", judul)
 	cetakGaris()
 }
 
@@ -179,8 +179,8 @@ func hapusProduk(tab *DaftarProduk, jumlah *int) {
 	} else {
 		fmt.Print("  Masukkan ID produk yang mau dihapus: ")
 		fmt.Scanln(&cariID)
-		// cari dulu indexnya pake sequential search
 
+		// cari dulu indexnya pake sequential search
 		for i < *jumlah && idx == -1 {
 			if tab[i].id == cariID {
 				idx = i
@@ -191,7 +191,6 @@ func hapusProduk(tab *DaftarProduk, jumlah *int) {
 		if idx == -1 {
 			fmt.Println("  [!] Produk dengan ID tersebut tidak ditemukan.")
 		} else {
-			// tampilin dulu produk yang mau dihapus
 			fmt.Println("\n  Produk yang akan dihapus:")
 			cetakSatuProduk(tab[idx])
 
@@ -316,17 +315,17 @@ func selectionSortWarna(tab *DaftarProduk, jumlah int) {
 	}
 }
 
-func binarySearchWarna(tab DaftarProduk, jumlah int, warnaCari string) int {
-	selectionSortWarna(&tab, jumlah)
+func binarySearchWarna(tab *DaftarProduk, jumlah int, warnaCari string) int {
+	selectionSortWarna(tab, jumlah)
 	var found, left, right, mid int
 	found = -1
 	left = 0
 	right = jumlah - 1
 	for left <= right && found == -1 {
 		mid = (left + right) / 2
-		if warnaCari < tab[mid].warna {
+		if warnaCari < (*tab)[mid].warna {
 			right = mid - 1
-		} else if warnaCari > tab[mid].warna {
+		} else if warnaCari > (*tab)[mid].warna {
 			left = mid + 1
 		} else {
 			found = mid
@@ -364,7 +363,7 @@ func menuCari(tab DaftarProduk, jumlah int) {
 		} else if pilihan == 2 {
 			fmt.Print("  Masukkan warna yang dicari: ")
 			fmt.Scanln(&warnaCari)
-			idxWarna = binarySearchWarna(tab, jumlah, warnaCari)
+			idxWarna = binarySearchWarna(&tab, jumlah, warnaCari)
 			if idxWarna == -1 {
 				fmt.Println("  [!] Warna tidak ditemukan.")
 			} else {
@@ -397,6 +396,7 @@ func selectionSortHarga(tab *DaftarProduk, jumlah int) {
 			}
 			i++
 		}
+
 		temp = (*tab)[pass-1]
 		(*tab)[pass-1] = (*tab)[idx]
 		(*tab)[idx] = temp
@@ -507,15 +507,27 @@ func tampilStatistik(tab DaftarProduk, jumlah int) {
 // ==============================
 
 func isiDataContoh(tab *DaftarProduk, jumlah *int) {
-	tab[0] = Produk{1, "Kaos Polos", "Atasan", "M", "Putih", 85000, 50, 230}
-	tab[1] = Produk{2, "Kaos Polos", "Atasan", "L", "Hitam", 85000, 30, 120}
-	tab[2] = Produk{3, "Kemeja Formal", "Atasan", "M", "Biru", 250000, 20, 175}
-	tab[3] = Produk{4, "Kemeja Formal", "Atasan", "XL", "Putih", 250000, 15, 230}
-	tab[4] = Produk{5, "Celana Jeans", "Bawahan", "L", "Biru", 350000, 25, 187}
-	tab[5] = Produk{6, "Celana Chino", "Bawahan", "L", "Krem", 280000, 18, 78}
-	tab[6] = Produk{7, "Topi Baseball", "Aksesori", "Allsize", "Hitam", 120000, 40, 65}
-	tab[7] = Produk{8, "Ikat Pinggang", "Aksesori", "Allsize", "Coklat", 75000, 35, 89}
-	*jumlah = 8
+	tab[0] = Produk{1, "Kaos_Polos", "Atasan", "M", "Putih", 85000, 50, 230}
+	tab[1] = Produk{2, "Kaos_Polos", "Atasan", "L", "Hitam", 85000, 30, 120}
+	tab[2] = Produk{3, "Kemeja_Formal", "Atasan", "M", "Biru", 250000, 20, 175}
+	tab[3] = Produk{4, "Kemeja_Formal", "Atasan", "XL", "Putih", 250000, 15, 230}
+	tab[4] = Produk{5, "Blue_Jeans", "Bawahan", "L", "Biru", 350000, 25, 187}
+	tab[5] = Produk{6, "Celana_Chino", "Bawahan", "L", "Cream", 280000, 18, 78}
+	tab[6] = Produk{7, "Topi_Baseball", "Aksesoris", "Allsize", "Hitam", 120000, 40, 65}
+	tab[7] = Produk{8, "Ikat_Pinggang", "Aksesoris", "Allsize", "Coklat", 45000, 35, 89}
+	tab[8] = Produk{9, "Long_Dress", "Dress", "Allsize", "Putih", 175000, 55, 99}
+	tab[9] = Produk{10, "Flower_Dress", "Dress", "L", "Pink", 195000, 66, 105}
+	tab[10] = Produk{11, "Korean_Dress", "Dress", "S", "Kuning", 189000, 75, 189}
+	tab[11] = Produk{12, "Kalung", "Aksesoris", "Allsize", "Putih", 32000, 37, 79}
+	tab[12] = Produk{13, "Blouse", "Atasan", "M", "Kuning", 185000, 56, 289}
+	tab[13] = Produk{14, "Celana_Kulot", "Bawahan", "L", "Putih", 160000, 29, 177}
+	tab[14] = Produk{15, "Celana_Balon", "Bawahan", "L", "Coklat", 156000, 23, 96}
+	tab[15] = Produk{16, "Flare_Jeans", "Bawahan", "M", "Biru", 230000, 24, 87}
+	tab[16] = Produk{17, "Bandana", "Aksesoris", "Allsize", "Coklat", 12000, 34, 45}
+	tab[17] = Produk{18, "Gelang", "Aksesoris", "Allsize", "Silver", 32000, 37, 79}
+	tab[18] = Produk{19, "Polkadot_Dress", "Dress", "L", "Putih", 199000, 65, 176}
+	tab[19] = Produk{20, "Abaya", "Dress", "Allsize", "Hitam", 289000, 34, 80}
+	*jumlah = 20
 }
 
 // ==============================
